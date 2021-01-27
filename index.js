@@ -22,13 +22,11 @@ mongoose
   });
 
 app.post("/login", (req, res) => {
-  console.log(`login request by ${req.username}`);
-  const data = true;
-  res.json(data || {});
+  console.log(`login request by ${req.query.Username}`);
 });
 
 app.post("/signup", (req, res) => {
-  console.log(`sign up request by ${req.username}`);
+  console.log(`sign up request by ${req.query.Username}`);
 });
 
 app.listen(port, () =>
