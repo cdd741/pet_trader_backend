@@ -25,7 +25,8 @@ mongoose
   });
 
 app.post("/login", (req, res) => {
-  console.log(`login request by ${req.body.userdata.username}`);
+  const userdata = req.body.userdata;
+  console.log(`login request by ${userdata.username}`);
   // const user = await UserAccount.findOne({
   //   usename: req.query.username,
   // }).exec();
@@ -34,6 +35,10 @@ app.post("/login", (req, res) => {
   //   success = true;
   // }
   // res.success;
+
+  // TODO: find match in database and return success and firstname to front end
+  // TODO 2: make password into hash string
+  // TODO 3: seperate files
 });
 
 app.post("/signup", async (req, res) => {
@@ -47,6 +52,7 @@ app.post("/signup", async (req, res) => {
     .then((p) => console.log(p))
     .catch((err) => console.log(err));
 
+  // TODO return a object to front end
   res.json(userdata);
 });
 
