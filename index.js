@@ -3,15 +3,18 @@ const app = express();
 const port = 8080;
 const cors = require("cors");
 const axios = require("axios");
+const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
-const Products = require("./models/product");
 const UserAccount = require("./models/userAccount");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
 mongoose
-  .connect("mongodb://localhost:27017/farmStand", {
+  .connect("mongodb://localhost:27017/petTrader", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -22,11 +25,29 @@ mongoose
   });
 
 app.post("/login", (req, res) => {
-  console.log(`login request by ${req.query.Username}`);
+  console.log(`login request by ${req.body.userdata.username}`);
+  // const user = await UserAccount.findOne({
+  //   usename: req.query.username,
+  // }).exec();
+  // let success = false;
+  // if (user !== null && user.password === req.query.password) {
+  //   success = true;
+  // }
+  // res.success;
 });
 
-app.post("/signup", (req, res) => {
-  console.log(`sign up request by ${req.query.Username}`);
+app.post("/signup", async (req, res) => {
+  const userdata = req.body.userdata;
+  console.log(`signup reqest by ${userdata.username}`);
+
+  const newUser = new UserAccount(userdata);
+
+  await newUser
+    .save()
+    .then((p) => console.log(p))
+    .catch((err) => console.log(err));
+
+  res.json(userdata);
 });
 
 app.listen(port, () =>
